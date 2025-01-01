@@ -1,63 +1,164 @@
-# Under All in One Project
+# Cliuno React.js template
 
-## Please Don't Open This Project
+<img src="./public/logo.png" style="width: 300px; height: 300px; padding-bottom: 30px;" alt="logo">
 
-it's not ready yet and it contains a lot of bugs
+## Installation
 
-## JS - JAVA - Python - PHP - ASP.NET
+if you want to run the project locally make sure you have installed nodejs, pnpm.
+to install node js go to [nodejs](https://nodejs.org/en/download/)
+to install pnpm run the following command
 
-and here is the deal All Backend Frameworks work on PORT = 3000
-
-and the Frontend Frameworks work on PORT = 8000
-
-
-
-
-# Svelte + Vite
-
-This template should help get you started developing with Svelte in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
-
-## Need an official Svelte framework?
-
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
-
-## Technical considerations
-
-**Why use this over SvelteKit?**
-
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
-  `vite dev` and `vite build` wouldn't work in a SvelteKit environment, for example.
-
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+npm install -g pnpm
 ```
+
+if you want to run the project using docker make sure you have installed docker.
+
+to install docker go to [docker](https://docs.docker.com/get-docker/)
+
+to run the project using docker run the following command
+
+```bash
+docker compose -d up
+```
+
+or pull the image from docker hub
+
+```bash
+docker pull iru44/react-template
+```
+
+make sure you pull the database image from docker hub as well
+
+then run the following command
+
+```bash
+docker run -p 5000:5000 iru44/react-template
+```
+
+if you want to run the project using kubernetes make sure you have installed minikube.
+
+to install minikube go to [minikube](https://minikube.sigs.k8s.io/docs/start/)
+to install kubectl go to [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+
+## Clone the repository
+
+```bash
+git clone https://github.com/CLIuno/CLIuno-React-template.git
+```
+
+then run the following command
+
+```bash
+pnpm install
+```
+
+## Usage
+
+to run the project run the following command
+
+```bash
+pnpm dev
+```
+
+## Features
+
+list of features that already implemented:
+
+| Status             | Feature                       |
+| ------------------ | ----------------------------- |
+| [ ]                | Auth routes                   |
+| [ ]                | User routes                   |
+| [ ]                | Role routes                   |
+| [ ]                | Post routes                   |
+| [ ]                | User Role routes              |
+| [ ]                | CI/CD with GitHub Actions     |
+| :white_check_mark: | Mailer                        |
+| :white_check_mark: | Logging                       |
+| [ ]                | Dockerize                     |
+| [ ]                | Kubernetes                    |
+| [ ]                | Soft delete                   |
+| :white_check_mark: | SQLite database               |
+| [ ]                | Fully documentation           |
+| :white_check_mark: | Postman collection just basic |
+
+## Premium features
+
+You will get more features if you buy the full version and you can use it for commercial purposes (contact me for more information)
+
+| Status             | Feature                      |
+| ------------------ | ---------------------------- |
+| :white_check_mark: | Vote routes                  |
+| :white_check_mark: | Comment routes               |
+| :white_check_mark: | Permission routes            |
+| :white_check_mark: | Reacion routes               |
+| :white_check_mark: | Payment routes               |
+| :white_check_mark: | Notification routes          |
+| :white_check_mark: | Pagination                   |
+| :white_check_mark: | Redis cache                  |
+| :white_check_mark: | File upload                  |
+| :white_check_mark: | Fully unit test              |
+| :white_check_mark: | Database Factory             |
+| :white_check_mark: | Make use of Enums            |
+| :white_check_mark: | GraphQL (Optional)           |
+| :white_check_mark: | Postman collection extra     |
+| :white_check_mark: | Postgres database or MongoDB |
+
+## list of endpoints
+
+### Auth
+
+| Status             | Endpoint Description    | Method | Path                             |
+| ------------------ | ----------------------- | ------ | -------------------------------- |
+| :white_check_mark: | Login                   | POST   | `/api/v1/auth/login`             |
+| [ ]                | Register                | POST   | `/api/v1/auth/register`          |
+| [ ]                | Logout                  | POST   | `/api/v1/auth/logout`            |
+| :white_check_mark: | Reset Password          | POST   | `/api/v1/auth/reset-password`    |
+| :white_check_mark: | Forgot Password         | POST   | `/api/v1/auth/forgot-password`   |
+| :white_check_mark: | Change Password         | POST   | `/api/v1/auth/change-password`   |
+| :white_check_mark: | Send Verification Email | POST   | `/api/v1/auth/send-verify-email` |
+| :white_check_mark: | Verify Email            | POST   | `/api/v1/auth/verify-email`      |
+| [ ]                | Check Token             | POST   | `/api/v1/auth/check-token`       |
+| [ ]                | Refresh Token           | POST   | `/api/v1/auth/refresh-token`     |
+| :white_check_mark: | Verify OTP              | POST   | `/api/v1/auth/otp/verify`        |
+| :white_check_mark: | Disable OTP             | POST   | `/api/v1/auth/otp/disable`       |
+| :white_check_mark: | Validate OTP            | POST   | `/api/v1/auth/otp/validate`      |
+| :white_check_mark: | Generate OTP            | POST   | `/api/v1/auth/otp/generate`      |
+
+### Users
+
+| Status | Endpoint Description    | Method | Path                                 |
+| ------ | ----------------------- | ------ | ------------------------------------ |
+| [ ]    | Get all current user    | GET    | `/api/v1/users/current`              |
+| [ ]    | Get user by username    | GET    | `/api/v1/users/username/:username`   |
+| [ ]    | Get all users           | GET    | `/api/v1/users`                      |
+| [ ]    | Get a user by ID        | GET    | `/api/v1/users/:id`                  |
+| [ ]    | Update user by ID       | PATCH  | `/api/v1/users/:id`                  |
+| [ ]    | Delete user by ID       | DELETE | `/api/v1/users/:id`                  |
+| [ ]    | Get permissions by user | GET    | `/api/v1/users/:user_id/permissions` |
+| [ ]    | Get posts by user       | GET    | `/api/v1/users/:user_id/posts`       |
+| [ ]    | Get roles by user       | GET    | `/api/v1/users/:user_id/roles`       |
+
+### Roles
+
+| Status | Endpoint Description    | Method | Path                                 |
+| ------ | ----------------------- | ------ | ------------------------------------ |
+| [ ]    | Get all roles           | GET    | `/api/v1/roles`                      |
+| [ ]    | Get role by ID          | GET    | `/api/v1/roles/:id`                  |
+| [ ]    | Create a role           | POST   | `/api/v1/roles`                      |
+| [ ]    | Update role by ID       | PATCH  | `/api/v1/roles/:id`                  |
+| [ ]    | Delete role by ID       | DELETE | `/api/v1/roles/:id`                  |
+| [ ]    | Get permissions by role | GET    | `/api/v1/roles/:role_id/permissions` |
+| [ ]    | Get users by role       | GET    | `/api/v1/roles/:role_id/users`       |
+
+### Posts
+
+| Status | Endpoint Description       | Method | Path                          |
+| ------ | -------------------------- | ------ | ----------------------------- |
+| [ ]    | Get all current user posts | GET    | `/api/v1/posts/current-user`  |
+| [ ]    | Get all posts              | GET    | `/api/v1/posts`               |
+| [ ]    | Get post by ID             | GET    | `/api/v1/posts/:id`           |
+| [ ]    | Create a post              | POST   | `/api/v1/posts`               |
+| [ ]    | Update post by ID          | PATCH  | `/api/v1/posts/:id`           |
+| [ ]    | Delete post by ID          | DELETE | `/api/v1/posts/:id`           |
+| [ ]    | Get users by post          | GET    | `/api/v1/posts/:post_id/user` |
