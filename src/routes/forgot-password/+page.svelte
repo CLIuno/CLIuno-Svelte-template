@@ -1,5 +1,11 @@
 <script lang="ts">
 	import api from '$lib/apis';
+	import { Alert, AlertDescription } from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
 
 	let email = $state('');
 	let sent = $state(false);
@@ -18,24 +24,35 @@
 </script>
 
 <div class="flex justify-center px-4 py-16">
-	<form onsubmit={onSubmit} class="w-full max-w-sm space-y-4 rounded bg-white p-8 shadow">
-		<h1 class="text-2xl font-bold">Forgot password</h1>
-		{#if sent}
-			<p class="rounded bg-green-100 p-2 text-sm text-green-700">
-				If the email exists, a reset link has been sent.
-			</p>
-		{:else}
-			<input
-				bind:value={email}
-				type="email"
-				placeholder="Your email"
-				class="w-full rounded border p-2"
-				required
-			/>
-			<button disabled={loading} class="w-full rounded bg-blue-600 py-2 text-white">
-				{loading ? 'Sending…' : 'Send reset link'}
-			</button>
-		{/if}
-		<a href="/login" class="text-sm underline">Back to login</a>
-	</form>
+	<Card class="w-full max-w-sm">
+		<CardHeader>
+			<CardTitle class="text-2xl">Forgot password</CardTitle>
+		</CardHeader>
+		<CardContent class="space-y-4">
+			{#if sent}
+				<Alert>
+					<AlertDescription>If the email exists, a reset link has been sent.</AlertDescription>
+				</Alert>
+			{:else}
+				<form onsubmit={onSubmit} class="space-y-4">
+					<div class="space-y-2">
+						<Label for="email">Email</Label>
+						<Input id="email" bind:value={email} type="email" placeholder="Your email" required />
+					</div>
+					<Button type="submit" disabled={loading} class="w-full">
+						{#if loading}
+							<Loader2 class="animate-spin" />
+						{/if}
+						{loading ? 'Sending…' : 'Send reset link'}
+					</Button>
+				</form>
+			{/if}
+			<a
+				href="/login"
+				class="text-muted-foreground hover:text-foreground text-sm underline underline-offset-4"
+			>
+				Back to login
+			</a>
+		</CardContent>
+	</Card>
 </div>

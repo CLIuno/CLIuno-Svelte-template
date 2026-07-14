@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import api from '$lib/apis';
+	import { Button } from '$lib/components/ui/button';
+	import { Card, CardContent } from '$lib/components/ui/card';
+	import { Input } from '$lib/components/ui/input';
+	import { Textarea } from '$lib/components/ui/textarea';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
 
 	interface Post {
 		id: string | number;
@@ -37,31 +42,40 @@
 </script>
 
 <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
-	<h1 class="text-3xl font-bold">Posts</h1>
+	<h1 class="text-3xl font-bold tracking-tight">Posts</h1>
 
-	<form onsubmit={createPost} class="space-y-2 rounded bg-white p-4 shadow-sm">
-		<input bind:value={title} placeholder="Post title" class="w-full rounded border p-2" required />
-		<textarea
-			bind:value={content}
-			placeholder="What's on your mind?"
-			class="w-full rounded border p-2"
-			rows="3"
-			required
-		></textarea>
-		<button class="rounded bg-blue-600 px-4 py-2 text-white">Publish</button>
-	</form>
+	<Card>
+		<CardContent class="pt-6">
+			<form onsubmit={createPost} class="space-y-3">
+				<Input bind:value={title} placeholder="Post title" required />
+				<Textarea bind:value={content} placeholder="What's on your mind?" rows={3} required />
+				<Button type="submit">Publish</Button>
+			</form>
+		</CardContent>
+	</Card>
 
-	{#if loading}<p>Loading…</p>{/if}
-	{#if !loading && posts.length === 0}<p>No posts yet.</p>{/if}
+	{#if loading}
+		<div class="text-muted-foreground flex items-center gap-2 text-sm">
+			<Loader2 class="animate-spin" />
+			Loading…
+		</div>
+	{/if}
+	{#if !loading && posts.length === 0}
+		<p class="text-muted-foreground text-sm">No posts yet.</p>
+	{/if}
 
 	<div class="space-y-3">
 		{#each posts as post (post.id)}
-			<a href={`/posts/${post.id}`} class="block rounded bg-white p-4 shadow-sm hover:shadow">
-				<h2 class="text-lg font-semibold">{post.title}</h2>
-				<p class="line-clamp-2 text-sm text-gray-600">{post.content}</p>
-				<p class="mt-2 text-xs text-gray-500">
-					{post.user?.username} · {post.comments?.length ?? 0} comments
-				</p>
+			<a href={`/posts/${post.id}`} class="block">
+				<Card class="transition-shadow hover:shadow-md">
+					<CardContent class="pt-6">
+						<h2 class="text-lg font-semibold">{post.title}</h2>
+						<p class="text-muted-foreground line-clamp-2 text-sm">{post.content}</p>
+						<p class="text-muted-foreground mt-2 text-xs">
+							@{post.user?.username} · {post.comments?.length ?? 0} comments
+						</p>
+					</CardContent>
+				</Card>
 			</a>
 		{/each}
 	</div>

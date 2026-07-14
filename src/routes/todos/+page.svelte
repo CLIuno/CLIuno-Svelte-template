@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import api from '$lib/apis';
+	import { Button } from '$lib/components/ui/button';
+	import { Card } from '$lib/components/ui/card';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
+	import Trash2 from '@lucide/svelte/icons/trash-2';
 
 	interface Todo {
 		id: string | number;
@@ -47,40 +53,51 @@
 </script>
 
 <div class="mx-auto max-w-3xl space-y-6 px-4 py-8">
-	<h1 class="text-3xl font-bold">Todos</h1>
+	<h1 class="text-3xl font-bold tracking-tight">Todos</h1>
 
 	<form onsubmit={createTodo} class="flex gap-2">
-		<input
-			bind:value={title}
-			placeholder="New todo title"
-			class="flex-1 rounded border p-2"
-			required
-		/>
-		<input
-			bind:value={description}
-			placeholder="Description (optional)"
-			class="flex-1 rounded border p-2"
-		/>
-		<button class="rounded bg-blue-600 px-4 text-white">Add</button>
+		<Input bind:value={title} placeholder="New todo title" required />
+		<Input bind:value={description} placeholder="Description (optional)" />
+		<Button type="submit">Add</Button>
 	</form>
 
-	{#if loading}<p>Loading…</p>{/if}
-	{#if !loading && todos.length === 0}<p>No todos yet — add your first one.</p>{/if}
+	{#if loading}
+		<div class="text-muted-foreground flex items-center gap-2 text-sm">
+			<Loader2 class="animate-spin" />
+			Loading…
+		</div>
+	{/if}
+	{#if !loading && todos.length === 0}
+		<p class="text-muted-foreground text-sm">No todos yet — add your first one.</p>
+	{/if}
 
-	<ul class="space-y-2">
+	<div class="space-y-2">
 		{#each todos as todo (todo.id)}
-			<li class="flex items-center gap-3 rounded bg-white p-4 shadow-sm">
-				<input type="checkbox" checked={todo.is_completed} onchange={() => toggle(todo.id)} />
-				<div class="flex-1">
-					<a href={`/todos/${todo.id}`} class={todo.is_completed ? 'line-through opacity-60' : ''}>
+			<Card class="flex items-center gap-3 p-4">
+				<Checkbox checked={todo.is_completed} onCheckedChange={() => toggle(todo.id)} />
+				<div class="min-w-0 flex-1">
+					<a
+						href={`/todos/${todo.id}`}
+						class={todo.is_completed ? 'text-muted-foreground line-through' : 'hover:underline'}
+					>
 						{todo.title}
 					</a>
-					{#if todo.user}<p class="text-xs text-gray-500">by {todo.user.username}</p>{/if}
+					{#if todo.description}
+						<p class="text-muted-foreground truncate text-sm">{todo.description}</p>
+					{/if}
+					{#if todo.user}
+						<p class="text-muted-foreground text-xs">by {todo.user.username}</p>
+					{/if}
 				</div>
-				<button onclick={() => remove(todo.id)} class="text-sm text-red-600 hover:underline">
-					Delete
-				</button>
-			</li>
+				<Button
+					variant="ghost"
+					size="icon"
+					aria-label="Delete todo"
+					onclick={() => remove(todo.id)}
+				>
+					<Trash2 />
+				</Button>
+			</Card>
 		{/each}
-	</ul>
+	</div>
 </div>

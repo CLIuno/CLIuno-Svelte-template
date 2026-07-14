@@ -2,6 +2,11 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import api from '$lib/apis';
+	import { Button } from '$lib/components/ui/button';
+	import { Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import { Input } from '$lib/components/ui/input';
+	import { Separator } from '$lib/components/ui/separator';
+	import Loader2 from '@lucide/svelte/icons/loader-2';
 
 	interface Comment {
 		id: string | number;
@@ -37,36 +42,52 @@
 </script>
 
 <div class="mx-auto max-w-2xl space-y-4 px-4 py-8">
-	<a href="/posts" class="text-sm underline">← Back to posts</a>
+	<a
+		href="/posts"
+		class="text-muted-foreground hover:text-foreground text-sm underline underline-offset-4"
+	>
+		← Back to posts
+	</a>
 
 	{#if post}
-		<div class="rounded bg-white p-6 shadow">
-			<h1 class="text-2xl font-bold">{post.title}</h1>
-			<p class="mt-2 text-gray-700">{post.content}</p>
-			{#if post.user}<p class="mt-3 text-sm text-gray-500">by {post.user.username}</p>{/if}
-		</div>
+		<Card>
+			<CardHeader>
+				<CardTitle class="text-2xl">{post.title}</CardTitle>
+			</CardHeader>
+			<CardContent class="space-y-3">
+				<p class="text-muted-foreground">{post.content}</p>
+				{#if post.user}
+					<p class="text-muted-foreground text-sm">@{post.user.username}</p>
+				{/if}
+			</CardContent>
+		</Card>
 
-		<div class="space-y-3 rounded bg-white p-6 shadow">
-			<h2 class="font-bold">Comments ({post.comments?.length ?? 0})</h2>
-			<form onsubmit={addComment} class="flex gap-2">
-				<input
-					bind:value={comment}
-					placeholder="Write a comment…"
-					class="flex-1 rounded border p-2"
-					required
-				/>
-				<button class="rounded bg-blue-600 px-4 text-white">Send</button>
-			</form>
-			<ul class="space-y-2">
-				{#each post.comments ?? [] as c (c.id)}
-					<li class="rounded bg-gray-100 p-3">
-						<p class="text-sm">{c.content}</p>
-						{#if c.user}<p class="mt-1 text-xs text-gray-500">— {c.user.username}</p>{/if}
-					</li>
-				{/each}
-			</ul>
-		</div>
+		<Card>
+			<CardHeader>
+				<CardTitle class="text-base">Comments ({post.comments?.length ?? 0})</CardTitle>
+			</CardHeader>
+			<CardContent class="space-y-4">
+				<form onsubmit={addComment} class="flex gap-2">
+					<Input bind:value={comment} placeholder="Write a comment…" required />
+					<Button type="submit">Send</Button>
+				</form>
+				<Separator />
+				<ul class="space-y-3">
+					{#each post.comments ?? [] as c (c.id)}
+						<li class="space-y-1">
+							<p class="text-sm">{c.content}</p>
+							{#if c.user}
+								<p class="text-muted-foreground text-xs">— @{c.user.username}</p>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</CardContent>
+		</Card>
 	{:else}
-		<p>Loading…</p>
+		<div class="text-muted-foreground flex items-center gap-2 text-sm">
+			<Loader2 class="animate-spin" />
+			Loading…
+		</div>
 	{/if}
 </div>
