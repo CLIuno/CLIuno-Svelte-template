@@ -11,6 +11,7 @@ export interface User {
 	last_name: string;
 	email: string;
 	phone?: string;
+	avatar_url?: string | null;
 }
 
 export const user = writable<User | null>(null);

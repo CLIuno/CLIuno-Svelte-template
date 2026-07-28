@@ -3,7 +3,7 @@
 	import api from '$lib/apis';
 	import { fetchCurrentUser, user } from '$lib/stores/auth';
 	import { Alert, AlertDescription } from '$lib/components/ui/alert';
-	import { Avatar, AvatarFallback } from '$lib/components/ui/avatar';
+	import { Avatar, AvatarFallback, AvatarImage } from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button';
 	import { Card, CardContent, CardHeader } from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
@@ -13,6 +13,9 @@
 	let firstName = $state('');
 	let lastName = $state('');
 	let saved = $state(false);
+	let uploading = $state(false);
+	let uploadError = $state<string | null>(null);
+	let avatarInput = $state<HTMLInputElement | null>(null);
 
 	onMount(async () => {
 		await fetchCurrentUser();
@@ -21,6 +24,26 @@
 			lastName = $user.last_name;
 		}
 	});
+
+	async function onAvatarPicked(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		const file = input.files?.[0];
+		if (!file) return;
+
+		uploading = true;
+		uploadError = null;
+		try {
+			const res = await api.upload.uploadImage(file);
+			await api.user.updateCurrentUser({ avatar_url: res.data.data.url });
+			await fetchCurrentUser();
+		} catch {
+			uploadError = 'Upload failed';
+		} finally {
+			uploading = false;
+			// reset so re-picking the same file still fires change
+			input.value = '';
+		}
+	}
 
 	async function save(e: SubmitEvent) {
 		e.preventDefault();
@@ -36,12 +59,36 @@
 	{#if $user}
 		<Card>
 			<CardHeader class="flex-row items-center gap-4 space-y-0">
-				<Avatar class="size-16 text-xl">
-					<AvatarFallback>{$user.first_name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
-				</Avatar>
+				<div class="flex flex-col items-center gap-2">
+					<Avatar class="size-16 text-xl">
+						{#if $user.avatar_url}
+							<AvatarImage src={$user.avatar_url} alt={$user.username} />
+						{/if}
+						<AvatarFallback>{$user.first_name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
+					</Avatar>
+					<input
+						bind:this={avatarInput}
+						type="file"
+						accept="image/png,image/jpeg,image/webp,image/gif"
+						class="hidden"
+						onchange={onAvatarPicked}
+					/>
+					<Button
+						type="button"
+						variant="outline"
+						size="sm"
+						disabled={uploading}
+						onclick={() => avatarInput?.click()}
+					>
+						{uploading ? 'Uploading…' : 'Change photo'}
+					</Button>
+				</div>
 				<div class="min-w-0">
 					<p class="truncate font-semibold">{$user.first_name} {$user.last_name}</p>
 					<p class="text-muted-foreground truncate text-sm">@{$user.username} · {$user.email}</p>
+					{#if uploadError}
+						<p class="text-destructive mt-1 text-sm">{uploadError}</p>
+					{/if}
 				</div>
 			</CardHeader>
 			<CardContent>

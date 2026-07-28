@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import api from '$lib/apis';
 	import type { User } from '$lib/stores/auth';
-	import { Avatar, AvatarFallback } from '$lib/components/ui/avatar';
+	import { Avatar, AvatarFallback, AvatarImage } from '$lib/components/ui/avatar';
 	import { Card, CardContent } from '$lib/components/ui/card';
 	import Loader2 from '@lucide/svelte/icons/loader-2';
 
@@ -33,6 +33,9 @@
 				<Card class="transition-shadow hover:shadow-md">
 					<CardContent class="flex items-center gap-3 pt-6">
 						<Avatar>
+							{#if u.avatar_url}
+								<AvatarImage src={u.avatar_url} alt={u.username} />
+							{/if}
 							<AvatarFallback>{u.first_name?.[0]?.toUpperCase() ?? '?'}</AvatarFallback>
 						</Avatar>
 						<div class="min-w-0">

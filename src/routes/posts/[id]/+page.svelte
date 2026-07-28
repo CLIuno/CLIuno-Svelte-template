@@ -18,6 +18,7 @@
 		id: string | number;
 		title: string;
 		content: string;
+		image_url?: string | null;
 		user?: { username: string };
 		comments?: Comment[];
 	}
@@ -56,6 +57,13 @@
 			</CardHeader>
 			<CardContent class="space-y-3">
 				<p class="text-muted-foreground">{post.content}</p>
+				{#if post.image_url}
+					<img
+						src={post.image_url}
+						alt={post.title}
+						class="mt-3 max-h-96 w-full rounded-md border object-cover"
+					/>
+				{/if}
 				{#if post.user}
 					<p class="text-muted-foreground text-sm">@{post.user.username}</p>
 				{/if}

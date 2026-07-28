@@ -4,7 +4,7 @@
 	import { i18n } from '$lib/i18n';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import { hydrate, isAuthenticated, logout, user } from '$lib/stores/auth';
-	import { Avatar, AvatarFallback } from '$lib/components/ui/avatar';
+	import { Avatar, AvatarFallback, AvatarImage } from '$lib/components/ui/avatar';
 	import { Button } from '$lib/components/ui/button';
 	import {
 		DropdownMenu,
@@ -64,6 +64,9 @@
 								class="focus-visible:ring-ring rounded-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
 							>
 								<Avatar>
+									{#if $user?.avatar_url}
+										<AvatarImage src={$user.avatar_url} alt={$user.username} />
+									{/if}
 									<AvatarFallback>
 										{$user?.username?.[0]?.toUpperCase() ?? '?'}
 									</AvatarFallback>
