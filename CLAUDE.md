@@ -36,3 +36,16 @@ Keep all URLs inside `src/lib/apis/`.
 Tailwind 3 (unprefixed classes); oxlint for ts, prettier (+svelte plugin) for
 formatting; conventional commits (commitlint + husky); pnpm build approvals in
 `pnpm-workspace.yaml`.
+
+## AI agents (Claude Code and friends)
+
+- **Check the CLIuno skills first**: `npx cliuno@latest skills status` — if any is
+  `missing`/`outdated`, run `npx cliuno@latest skills install` (adds `.claude/skills/cliuno-*`:
+  the generator workflow, the scaffold guide, and the shared REST contract).
+- **Generate resources, don't hand-write them**:
+  `npx cliuno@latest make:resource Product --fields name:string,price:number,inStock:boolean`
+  creates `src/lib/apis/product-api.ts`, `src/routes/products/+page.svelte`, `src/routes/products/[id]/+page.svelte` and registers it in `src/lib/apis/index.ts`, following this
+  template's conventions and the `{status, message, data}` contract. `--dry-run` previews,
+  re-running never duplicates registrations, `--force` overwrites.
+- Single pieces: `make:api`, `make:page`, `make:store`, `make:component` (→ `npx shadcn-svelte@latest add`). `npx cliuno@latest make` lists them.
+- Then edit fields/business logic only, and run the gates above.
