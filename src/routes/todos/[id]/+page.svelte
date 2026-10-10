@@ -17,7 +17,7 @@
 	let todo = $state<Todo | null>(null);
 
 	onMount(async () => {
-		const res = await api.todo.getTodoById($page.params.id);
+		const res = await api.todo.getTodoById($page.params.id!);
 		todo = res.data.data.todo;
 	});
 </script>

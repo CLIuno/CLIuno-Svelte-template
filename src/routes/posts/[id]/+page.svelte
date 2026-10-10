@@ -27,7 +27,7 @@
 	let comment = $state('');
 
 	async function fetchPost() {
-		const res = await api.post.getPostById($page.params.id);
+		const res = await api.post.getPostById($page.params.id!);
 		post = res.data.data.post;
 	}
 
@@ -36,7 +36,7 @@
 	async function addComment(e: SubmitEvent) {
 		e.preventDefault();
 		if (!comment.trim()) return;
-		await api.post.createComment($page.params.id, { content: comment });
+		await api.post.createComment($page.params.id!, { content: comment });
 		comment = '';
 		await fetchPost();
 	}

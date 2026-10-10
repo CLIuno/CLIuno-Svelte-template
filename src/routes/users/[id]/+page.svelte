@@ -15,7 +15,7 @@
 	let isFollowing = $state(false);
 
 	async function load() {
-		const id = $page.params.id;
+		const id = $page.params.id!;
 		const [u, fr, fw, isF] = await Promise.all([
 			api.user.getUserById(id),
 			api.follow.getFollowers(id),
@@ -31,7 +31,7 @@
 	onMount(load);
 
 	async function toggleFollow() {
-		const id = $page.params.id;
+		const id = $page.params.id!;
 		if (isFollowing) {
 			await api.follow.unfollow(id);
 		} else {
